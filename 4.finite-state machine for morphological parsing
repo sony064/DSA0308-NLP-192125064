@@ -12,3 +12,4 @@ if __name__ == "__main__":
     nouns = ['cat', 'dog', 'fox', 'house', 'box', 'bus']
     for noun in nouns:
         print(f"Plural of '{noun}': {fsm.generate_plural(noun)}")
+
