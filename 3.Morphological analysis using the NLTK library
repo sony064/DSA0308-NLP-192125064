@@ -1,0 +1,14 @@
+import nltk
+from nltk.stem import WordNetLemmatizer
+
+nltk.download('punkt')
+nltk.download('wordnet')
+
+text = "The quick brown foxes are jumping over the lazy dogs."
+tokens = nltk.word_tokenize(text)
+
+lemmatizer = WordNetLemmatizer()
+lemmatized_words = [lemmatizer.lemmatize(word, pos='v') for word in tokens]
+
+print("Original tokens:", tokens)
+print("Lemmatized words:", lemmatized_words)
