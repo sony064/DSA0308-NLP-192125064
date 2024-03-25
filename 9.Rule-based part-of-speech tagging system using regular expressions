@@ -1,0 +1,13 @@
+import re
+
+def pos_tag(sentence):
+    return [(w, 'NNP') if re.match(r'\b[A-Z][a-z]*\b', w) else
+            (w, 'NNPS') if re.match(r'\b[A-Z][a-z]*s\b', w) else
+            (w, 'VBG') if re.match(r'\b[a-z]*ing\b', w) else
+            (w, 'VBD') if re.match(r'\b[a-z]*ed\b', w) else
+            (w, 'NN') if re.match(r'\b[a-z]*\b', w) else
+            (w, 'UNK') for w in sentence]
+sentence = ['John', 'likes', 'eating', 'apples']
+
+tagged_sentence = pos_tag(sentence)
+print(tagged_sentence)
