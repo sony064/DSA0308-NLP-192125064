@@ -1,0 +1,28 @@
+import random
+
+def simple_pos_tag(sentence, transitions, emissions):
+    tagged_sentence, prev_tag = [], None
+
+    for word in sentence:
+        
+        emission_probs = emissions.get(word, {tag: 1/len(transitions) for tag in transitions})
+        emission_weights = [emission_probs.get(prev_tag, 1/len(transitions)) for tag in transitions]
+        
+        tag = random.choices(list(transitions.keys()), weights=emission_weights)[0]
+        tagged_sentence.append((word, tag))
+        prev_tag = tag
+    
+    return tagged_sentence
+
+transitions = {'N': {'N': 0.5, 'V': 0.3, 'A': 0.2},
+               'V': {'N': 0.4, 'V': 0.4, 'A': 0.2},
+               'A': {'N': 0.3, 'V': 0.2, 'A': 0.5}}
+
+emissions = {'apple': {'N': 0.9, 'V': 0.05, 'A': 0.05},
+             'eat': {'N': 0.05, 'V': 0.9, 'A': 0.05},
+             'red': {'N': 0.05, 'V': 0.05, 'A': 0.9}}
+
+sentence = ['apple', 'eat', 'red']
+
+tagged_sentence = simple_pos_tag(sentence, transitions, emissions)
+print(tagged_sentence)
