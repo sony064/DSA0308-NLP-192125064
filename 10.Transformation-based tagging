@@ -1,0 +1,19 @@
+def transform_based_tag(sentence):
+    tagged_sentence = []
+    for word in sentence:
+        if word.endswith('ing'):
+            tagged_sentence.append((word, 'VBG')) 
+        elif word.endswith('ed'):
+            tagged_sentence.append((word, 'VBD'))  
+        elif word.istitle():
+            tagged_sentence.append((word, 'NNP'))  
+        elif word.isupper():
+            tagged_sentence.append((word, 'NNPS'))  
+        else:
+            tagged_sentence.append((word, 'NN'))  
+    return tagged_sentence
+
+sentence = ['John', 'likes', 'eating', 'apples']
+
+tagged_sentence = transform_based_tag(sentence)
+print(tagged_sentence)
