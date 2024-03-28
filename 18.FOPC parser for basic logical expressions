@@ -1,0 +1,16 @@
+import re
+
+def parse_fopc(expression):
+    # Regular expression pattern to match predicates
+    pattern = r'([A-Za-z]+\([A-Za-z,]+\))'
+    # Extract predicates from expression
+    predicates = re.findall(pattern, expression)
+    return predicates
+
+expression = "Human(x) ∧ Mortal(x) ∧ Intelligent(y)"
+
+parsed_predicates = parse_fopc(expression)
+
+print("Parsed predicates:")
+for predicate in parsed_predicates:
+    print(predicate)
