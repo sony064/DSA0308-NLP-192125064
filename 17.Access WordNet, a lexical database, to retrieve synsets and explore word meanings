@@ -1,0 +1,17 @@
+from nltk.corpus import wordnet
+
+def explore_word(word):
+    synsets = wordnet.synsets(word)
+    if synsets:
+        print(f"Synsets for '{word}':")
+        for synset in synsets:
+            print(f" - {synset.name()} : {synset.definition()}")
+            print(f"   Examples: {synset.examples()}")
+        print()
+    else:
+        print(f"No synsets found for '{word}'")
+
+words = ["play", "run", "book"]
+
+for word in words:
+    explore_word(word)
