@@ -1,0 +1,34 @@
+class EarleyItem: 
+    def __init__(self, production, dot_position, start_position): 
+        self.production, self.dot_position, self.start_position = production, dot_position, start_position 
+
+def earley_parse(grammar, input_string): 
+    chart = [[] for _ in range(len(input_string) + 1)] 
+    start_production = grammar[0] 
+
+    def predict(chart, item): 
+        for p in grammar: 
+            if p[0] == item.production[item.dot_position]: chart[item.start_position].append(EarleyItem(p, 0, item.start_position)) 
+
+    def scan(chart, item, i): 
+        if item.production[item.dot_position] == i: chart[item.start_position + 1].append(EarleyItem(item.production, item.dot_position + 1, item.start_position)) 
+
+    def complete(chart, item): 
+        for e in chart[item.start_position]: 
+            if e.dot_position < len(e.production) and e.production[e.dot_position] == item.production[0]: chart[item.start_position].append(EarleyItem(e.production, e.dot_position + 1, e.start_position)) 
+
+    chart[0].append(EarleyItem(start_production, 0, 0)) 
+
+    for i in range(len(input_string) + 1): 
+        for item in chart[i]: 
+            if item.dot_position < len(item.production): 
+                if item.production[item.dot_position].isupper(): predict(chart, item) 
+                else: scan(chart, item, input_string[i]) 
+            else: complete(chart, item) 
+
+    return any(item.production == start_production and item.dot_position == len(item.production) for item in chart[-1]) 
+
+grammar = [('S', 'NP VP'), ('NP', 'Det N'), ('VP', 'V NP'), ('Det', 'the'), ('N', 'cat'), ('N', 'dog'), ('V', 'chased')] 
+input_string = "the cat chased the dog" 
+result = earley_parse(grammar, input_string.split()) 
+print("Parse successful:", result)
