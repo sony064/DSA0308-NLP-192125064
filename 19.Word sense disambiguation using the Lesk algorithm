@@ -1,0 +1,23 @@
+from nltk.corpus import wordnet, stopwords
+import nltk
+nltk.download('stopwords')
+
+
+def lesk(word, sentence):
+    best_sense = None
+    max_overlap = 0
+    context = set(sentence) - set(stopwords.words('english'))
+    for sense in wordnet.synsets(word):
+        signature = set(sense.definition().split() + sense.examples())
+        overlap_size = len(signature.intersection(context))
+        if overlap_size > max_overlap:
+            max_overlap = overlap_size
+            best_sense = sense
+    return best_sense
+
+sentence = "I went to the bank to deposit my money."
+word = "bank"
+
+sense = lesk(word, sentence.split())
+
+print("Best sense:", sense.definition() if sense else "No sense found.")
