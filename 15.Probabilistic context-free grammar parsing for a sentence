@@ -1,0 +1,27 @@
+import nltk
+
+# Define a PCFG
+pcfg_grammar = nltk.PCFG.fromstring("""
+    S -> NP VP [1.0]
+    NP -> Det N [0.5] | NP PP [0.3] | 'John' [0.2]
+    Det -> 'the' [0.8] | 'a' [0.2]
+    N -> 'man' [0.4] | 'dog' [0.4] | 'telescope' [0.2]
+    VP -> V NP [0.6] | VP PP [0.4]
+    V -> 'bit' [0.4] | 'saw' [0.6]
+    PP -> P NP [1.0]
+    P -> 'with' [0.6] | 'in' [0.4]
+""")
+
+# Define a sentence
+sentence = "the man saw a dog with a telescope"
+
+# Tokenize the sentence
+tokens = sentence.split()
+
+# Create a parser
+parser = nltk.ViterbiParser(pcfg_grammar)
+
+# Parse the sentence and print the most probable parse tree
+for tree in parser.parse(tokens):
+    print(tree)
+15
