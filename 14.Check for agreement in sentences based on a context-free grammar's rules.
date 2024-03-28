@@ -1,0 +1,15 @@
+def check_agreement(grammar, sentence):
+    errors = [word.split()[0] for word in sentence.split() if word.split()[-1] not in grammar.get(word.split()[-1], [])]
+    print("Agreement errors found:" if errors else "Agreement is correct.")
+    for error in errors:
+        print(f"- {error}")
+
+grammar = {
+    'Noun': ['s', 'es'],  
+    'Verb': ['s', 'es', 'ed'],  
+    'Adjective': ['er', 'est']  
+}
+
+sentence = "The cat eats fishes quickly."
+
+check_agreement(grammar, sentence)
